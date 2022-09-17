@@ -1,23 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Validador CURP y RFC</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Joshua's Portfolio</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body>
-  <div class="mb-6">
-    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default input</label>
-    <input type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-</div>
-  <!-- Swiper JS -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <body class="bg-slate-500">
+    <h1 class="text-4xl text-center font-bold text-zinc-400">
+      Validador de CURP y RFC
+    </h1>
+    <div class="container mx-auto my-3 flex justify-around">
+      <form
+        id="formCurp"
+        class="mb-6 mx-3 flex flex-col justify-center items-center"
+      >
+        <label
+          for="default-input"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >CURP</label
+        >
+        <input
+          type="text"
+          id="curp-input"
+          maxlength="18"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
+        />
+        <div
+          id="spanCurp"
+          class="hidden p-4 mb-4 text-sm w-full text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+          role="alert"
+        >
+          <span class="font-medium" id="errorC"></span>
+        </div>
+        <button
+          type="button"
+          id="btnCurp"
+          class="text-white w-1/2 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-0 my-auto"
+        >
+          Validar CURP
+        </button>
+      </form>
+      <form
+        id="formRfc"
+        class="mb-6 mx-3 flex flex-col justify-center items-center"
+      >
+        <label
+          for="default-input"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >RFC</label
+        >
+        <input
+          type="text"
+          id="rfc-input"
+          maxlength="12"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
+        />
+        <div
+          id="spanRfc"
+          class="hidden p-4 mb-4 text-sm w-full text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+          role="alert"
+        >
+          <span class="font-medium" id="errorR"></span>
+        </div>
+        <button
+          id="btnRfc"
+          type="button"
+          class="text-white w-1/2 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-0 my-auto"
+        >
+          Validar RFC
+        </button>
+      </form>
+      <!-- <div class="mb-6 flex flex-col justify-center items-center">
+        <label
+          for="default-input"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >CURP</label
+        >
+        <input
+          type="text"
+          id="default-input"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2"
+        />
+        <div
+          class="p-4 mb-4 text-sm w-1/2 text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+          role="alert"
+        >
+          <span class="font-medium">Danger alert!</span> Change a few things up
+          and try submitting again.
+        </div>
+        <button
+          type="button"
+          class="text-white w-1/3 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-0 my-auto"
+        >
+          Green
+        </button>
+      </div> -->
+    </div>
+    <!-- Swiper JS -->
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
     var swiper = new Swiper(".slider", {
       spaceBetween: 30,
@@ -35,8 +126,7 @@
         prevEl: ".swiper-button-prev",
       },
     });
-  </script>
-  <script src="bundle.js"></script>
-</body>
-
+  </script> -->
+    <script src="bundle.js"></script>
+  </body>
 </html>
