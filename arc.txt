@@ -1,1 +1,11 @@
-npm install --save-dev webpack webpack-cli webpack-dev-server babel-loader @babel/core @babel/preset-env style-loader css-loader postcss postcss-loader postcss-preset-env
+### Desarrollar lo que se indica en el documento
+
+1.Deberá ser 18 caracteres para la CURP y 12 para el RFC
+      1.Si son menos, mostrar el mensaje correspondiente
+      2.Si son más, mostrar el mensaje correspondiente
+2.Verificar que el identificador del sexo en la CURP sea válido
+3.Verificar que el identificador del estado sea válido
+4.Verificar que los dígitos de la fecha sean válido Verificar que coincidan hasta el 10mo carácter
+5.Verificar que los cuatro primeros dígitos sean letra
+6.Calcular la edad
+7.Separar en 2 botones para la validación individual

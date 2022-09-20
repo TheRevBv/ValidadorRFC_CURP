@@ -22,17 +22,14 @@ const spanRfc: HTMLDivElement = document.querySelector('#spanRfc');
 /**
  * Método que valida y enviar el formulario
  */
-function enviarFormularioCurp(): void {
+const enviarFormularioCurp = (): void => {
 
     // Variables
     let errores: string[] = []
 
-    // Validamos nombre
-    //// ¿Es un numero?
-    // if (isNaN(parseInt(inputNombre.value))) errores.push('El nombre no puede ser un número')
     //// Es obligatorio
     if (curp.value === '') errores.push('El CURP es obligatorio')
-    if (curp.value.length < 18) errores.push('El CURP debe tener 18 caracteres')
+    if (curp.value.length < 18) errores.push('El CURP debe tener 18 caracteres, son menos de 18 : ' + curp.value.length)
 
     // Mostramos los errores
     imprimirErroresCurp(errores)
@@ -41,17 +38,14 @@ function enviarFormularioCurp(): void {
     if (errores.length === 0) alert('Curp correcto y valido')
 }
 
-function enviarFormularioRfc(): void {
+const enviarFormularioRfc = (): void => {
 
     // Variables
     let errores: string[] = []
 
-    // Validamos nombre
-    //// ¿Es un numero?
-    // if (isNaN(parseInt(inputNombre.value))) errores.push('El nombre no puede ser un número')
     //// Es obligatorio
     if (rfc.value === '') errores.push('El CURP es obligatorio')
-    if (rfc.value.length < 18) errores.push('El RFC debe tener 12 caracteres')
+    if (rfc.value.length < 18) errores.push('El RFC debe tener 12 caracteres, son menos de 12 : ' + rfc.value.length)
 
     // Mostramos los errores
     imprimirErroresRfc(errores)
