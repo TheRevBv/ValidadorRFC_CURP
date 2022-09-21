@@ -1,20 +1,18 @@
 /*
     ===== Código de TypeScript =====
 */
+//Importaciones
+import { EstadosInterface } from "./interface/estadosInterface";
+
 //======================================================================
 // Variables globales y constantes
 //======================================================================
-const botonGuardarCurp: HTMLButtonElement = document.querySelector('#btnCurp');
-const botonGuardarRfc: HTMLButtonElement = document.querySelector('#btnRfc');
-const curp: HTMLInputElement = document.querySelector('#curp-input');
-const erroresRfc: HTMLSpanElement = document.querySelector('#errorR');
-const erroresCurp: HTMLSpanElement = document.querySelector('#errorC');
-const formularioCurp: HTMLFormElement = document.querySelector('#formCurp');
-const formularioRfc: HTMLFormElement = document.querySelector('#formRfc');
-const rfc: HTMLInputElement = document.querySelector('#rfc-input');
-const spanCurp: HTMLDivElement = document.querySelector('#spanCurp');
-const spanRfc: HTMLDivElement = document.querySelector('#spanRfc');
-
+const btnValidar: HTMLButtonElement = document.querySelector("#btnValidar");
+const curp: HTMLInputElement = document.querySelector("#curp-input");
+const divValidar: HTMLDivElement = document.querySelector("#divValidar");
+const rfc: HTMLInputElement = document.querySelector("#rfc-input");
+const spanError: HTMLSpanElement = document.querySelector("#spanError");
+const uri: string = "http://localhost:8081/src/api/estados-mexico.json";
 //======================================================================
 // FUNCIONES
 //======================================================================
@@ -22,79 +20,78 @@ const spanRfc: HTMLDivElement = document.querySelector('#spanRfc');
 /**
  * Método que valida y enviar el formulario
  */
-const enviarFormularioCurp = (): void => {
-
+const sendForm = (): void => {
     // Variables
-    let errores: string[] = []
+    let errors: string[] = [];
+    let curpValue: any = curp.value.toUpperCase();
+    let rfcValue: any = rfc.value.toUpperCase();
 
     //// Es obligatorio
-    if (curp.value === '') errores.push('El CURP es obligatorio')
-    if (curp.value.length < 18) errores.push('El CURP debe tener 18 caracteres, son menos de 18 : ' + curp.value.length)
+    //CURP Validations
+    if (curpValue === "") errors.push("El CURP es obligatorio");
+    if (curpValue.length < 18)
+        errors.push(
+            "El CURP debe tener 18 caracteres, son menos de 18 : " + curpValue.length
+        );
+    if (curpValue.substring(10, 11) != "M" && curpValue.substring(10, 11) != "H")
+        errors.push("El sexo o genero no es valido");
+    getEstados().then((data) => {
+        data.forEach((estado) => {
+            estado.clave == curpValue.substring(11, 13) ?
+                'Estados Valido'
+                : errors.push("El estado no es valido");
+        });
+    });
+    if (isNaN(curpValue.substring(0, 3)))
 
-    // Mostramos los errores
-    imprimirErroresCurp(errores)
+        //RFC Validations
+        if (rfcValue === "") errors.push("El RFC es obligatorio");
+    if (rfcValue.length < 12)
+        errors.push(
+            "El RFC debe tener 12 caracteres, son menos de 12 : " + rfcValue.length
+        );
 
+    // Mostramos los errors
     // Enviamos formulario
-    if (errores.length === 0) alert('Curp correcto y valido')
-}
-
-const enviarFormularioRfc = (): void => {
-
-    // Variables
-    let errores: string[] = []
-
-    //// Es obligatorio
-    if (rfc.value === '') errores.push('El CURP es obligatorio')
-    if (rfc.value.length < 18) errores.push('El RFC debe tener 12 caracteres, son menos de 12 : ' + rfc.value.length)
-
-    // Mostramos los errores
-    imprimirErroresRfc(errores)
-
-    // Enviamos formulario
-    if (errores.length === 0) console.log('Rfc correcto y valido')
-}
-
+    if (!handleErrors(errors)) alert("Curp y RFC valido");
+};
 /**
- * Imprime todos los errores en el UL
+ * Imprime todos los errores en el Span
  * @param errores Array - Frases de error
  */
-function imprimirErroresCurp(errores: string[]): void {
+function handleErrors(errores: string[]): boolean {
     // Limpiamos los errores anteriores en HTML
-    erroresCurp.textContent = ''
+    spanError.textContent = "";
     if (errores.length > 0) {
-        spanCurp.classList.remove('hidden');
-        spanCurp.classList.add('block');
+        divValidar.classList.remove("hidden");
+        divValidar.classList.add("block");
         // Generamos todos LI con su mensaje
         errores.forEach(function (mensaje) {
             // Creamos nuevo LI
-            // let nuevoLi = document.createElement('br')
-            erroresCurp.textContent = mensaje + '\n';
+            let nuevoLi = document.createElement("li");
+            spanError.appendChild(nuevoLi);
+            nuevoLi.textContent = mensaje + "\n";
             console.log(mensaje);
-        })
+        });
+        return true;
     }
+    return false;
 }
-/**
- * Imprime todos los errores en el UL
- * @param errores Array - Frases de error
- */
-function imprimirErroresRfc(errores: string[]): void {
-    // Limpiamos los errores anteriores en HTML
-    erroresRfc.textContent = ''
-    if (errores.length > 0) {
-        spanRfc.classList.remove('hidden');
-        spanRfc.classList.add('block');
-        // Generamos todos LI con su mensaje
-        errores.forEach(function (mensaje) {
-            // Creamos nuevo LI
-            // let nuevoLi = document.createElement('br')
-            erroresRfc.textContent = mensaje + '\n';
-            console.log(mensaje);
-        })
-    }
+
+async function getEstados(): Promise<EstadosInterface[]> {
+    const response = await fetch(uri);
+    const data = await response.json();
+    return data;
 }
 //======================================================================
 // EVENTOS
 //======================================================================
 
-botonGuardarCurp.addEventListener('click', enviarFormularioCurp)
-botonGuardarRfc.addEventListener('click', enviarFormularioRfc)
+btnValidar.addEventListener("click", sendForm);
+// async function apiEstados<EstadosInterface>(url: string): Promise<EstadosInterface> {
+//     const response = await fetch(url);
+//     // const data = await response.json();
+//     // console.log(response.json());
+//     return await response.json();
+
+// }
