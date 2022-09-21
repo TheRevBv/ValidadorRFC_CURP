@@ -35,24 +35,26 @@ const sendForm = (): void => {
         );
     if (curpValue.substring(10, 11) != "M" && curpValue.substring(10, 11) != "H")
         errors.push("El sexo o genero no es valido");
-    getEstados().then((data) => {
-        data.forEach((estado) => {
-            estado.clave == curpValue.substring(11, 13) ?
-                'Estados Valido'
-                : errors.push("El estado no es valido");
-        });
-    });
-    if (isNaN(curpValue.substring(0, 3)))
+    if (!validateState(curpValue.substring(11, 13))) errors.push("El estado no es valido");
+    // console.log(estado);
+    // if (estado) errors.push("El estado no es valido");
+    // let a: number = curpValue.substring(4, 6);
+    // let m: number = curpValue.substring(6, 8);
+    // let d: number = curpValue.substring(8, 10);
+    // let bornDate: Date = new Date(a, m - 1, d);
+    // console.log(bornDate);
+    // if (bornDate > new Date()) errors.push("La fecha de nacimiento no es valida");
 
-        //RFC Validations
-        if (rfcValue === "") errors.push("El RFC es obligatorio");
+    validateTxt(curpValue.substring(0, 4)) ? console.log('Es texto') : errors.push("El primer grupo de caracteres no es texto");
+
+    //RFC Validations
+    if (rfcValue === "") errors.push("El RFC es obligatorio");
     if (rfcValue.length < 12)
         errors.push(
             "El RFC debe tener 12 caracteres, son menos de 12 : " + rfcValue.length
         );
 
-    // Mostramos los errors
-    // Enviamos formulario
+    // Mostramos los errors y Enviamos formulario
     if (!handleErrors(errors)) alert("Curp y RFC valido");
 };
 /**
@@ -66,32 +68,52 @@ function handleErrors(errores: string[]): boolean {
         divValidar.classList.remove("hidden");
         divValidar.classList.add("block");
         // Generamos todos LI con su mensaje
-        errores.forEach(function (mensaje) {
+        errores.map((mensaje) => {
             // Creamos nuevo LI
             let nuevoLi = document.createElement("li");
             spanError.appendChild(nuevoLi);
-            nuevoLi.textContent = mensaje + "\n";
+            nuevoLi.textContent = mensaje;
             console.log(mensaje);
         });
         return true;
     }
     return false;
 }
-
+/**
+ * Retorna los estados de México
+ * @function api - Estados[ {clave: string, nombre: string} ]
+ */
 async function getEstados(): Promise<EstadosInterface[]> {
     const response = await fetch(uri);
     const data = await response.json();
     return data;
+}
+
+function validateState(state: string): boolean {
+    let estado: boolean;
+    getEstados().then(async (data) => {
+        data.map(({ clave }) => {
+            if (clave === state) {
+                estado = true;
+            }
+        });
+    });
+    console.log(estado);
+    return estado;
+}
+
+
+/**
+ * Retorna los estados de México
+ * @function Valida los primeros textos del CURP
+ */
+function validateTxt(txt: string): boolean {
+    let cadenaNumero: number;
+    cadenaNumero = parseInt(txt);
+    if (isNaN(cadenaNumero)) return true;
 }
 //======================================================================
 // EVENTOS
 //======================================================================
 
 btnValidar.addEventListener("click", sendForm);
-// async function apiEstados<EstadosInterface>(url: string): Promise<EstadosInterface> {
-//     const response = await fetch(url);
-//     // const data = await response.json();
-//     // console.log(response.json());
-//     return await response.json();
-
-// }
